@@ -1,5 +1,11 @@
 package com.melitest.fraudcontext.services;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -40,6 +46,7 @@ public class CountryInfoService {
 
   private static <T> CountryInfo getCountryInfoFromAPI(final String code) {
     try {
+      Instant now = Instant.now();
       HttpResponse<JsonNode> jsonResponse = Unirest.get(CountryInfoService.API_URL + code)
           .header("accept", "application/json").asJson();
       String name = jsonResponse.getBody().getObject().get("name").toString();
@@ -58,8 +65,11 @@ public class CountryInfoService {
             lng, lat);
 
         JSONArray timezonesResponse = jsonResponse.getBody().getObject().getJSONArray("timezones");
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss ")
+            .appendZoneText(TextStyle.NARROW).toFormatter();
         for (int i = 0; i < timezonesResponse.length(); i++) {
-          timezones.add(timezonesResponse.getString(i));
+          String utc = timezonesResponse.getString(i);
+          timezones.add(ZonedDateTime.ofInstant(now, ZoneId.of(utc)).format(formatter));
         }
 
         currency = jsonResponse.getBody().getObject().getJSONArray("currencies").getJSONObject(0).getString("code");

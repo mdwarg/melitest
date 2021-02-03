@@ -19,6 +19,8 @@ dependencies {
   compile 'com.fasterxml.jackson.core:jackson-annotations:2.12.1'
   compile 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
   compile 'com.google.guava:guava:30.1-jre'
+  compile 'org.apache.logging.log4j:log4j-api:2.14.0'
+  compile 'org.apache.logging.log4j:log4j-core:2.14.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
