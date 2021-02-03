@@ -1,6 +1,6 @@
 package com.melitest.fraudcontext.dtos;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class ContextDto {
 
@@ -8,13 +8,13 @@ public class ContextDto {
   private String date;
   private String country;
   private String isoCode;
-  private String[] languages;
+  private List<String> languages;
   private String currency;
-  private String[] times;
+  private List<String> times;
   private String estimatedDistance;
 
   public ContextDto(final String ip, final String date, final String country, final String isoCode,
-      final String[] languages, final String currency, final String[] times, final String estimatedDistance) {
+      final List<String> languages, final String currency, final List<String> times, final String estimatedDistance) {
     super();
     this.ip = ip;
     this.date = date;
@@ -58,11 +58,11 @@ public class ContextDto {
     this.isoCode = isoCode;
   }
 
-  public String[] getLanguages() {
+  public List<String> getLanguages() {
     return languages;
   }
 
-  public void setLanguages(final String[] languages) {
+  public void setLanguages(final List<String> languages) {
     this.languages = languages;
   }
 
@@ -74,11 +74,11 @@ public class ContextDto {
     this.currency = currency;
   }
 
-  public String[] getTimes() {
+  public List<String> getTimes() {
     return times;
   }
 
-  public void setTimes(final String[] times) {
+  public void setTimes(final List<String> times) {
     this.times = times;
   }
 
@@ -93,8 +93,7 @@ public class ContextDto {
   @Override
   public String toString() {
     return "ContextDto [ip=" + ip + ", date=" + date + ", country=" + country + ", isoCode=" + isoCode + ", languages="
-        + Arrays.toString(languages) + ", currency=" + currency + ", times=" + Arrays.toString(times)
-        + ", estimatedDistance=" + estimatedDistance + "]";
+        + languages + ", currency=" + currency + ", times=" + times + ", estimatedDistance=" + estimatedDistance + "]";
   }
 
 }

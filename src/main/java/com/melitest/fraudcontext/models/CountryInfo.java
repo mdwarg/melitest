@@ -1,25 +1,26 @@
 package com.melitest.fraudcontext.models;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class CountryInfo {
   private String name;
   private String capital;
   private String region;
   private String subregion;
-  private Integer[] latLng;
-  private String[] timezones;
+  private Integer distanceToBA;
+  private List<String> timezones;
   private String currencyCode;
-  private String[] languages;
+  private List<String> languages;
 
   public CountryInfo(final String name, final String capital, final String region, final String subregion,
-      final Integer[] latLng, final String[] timezones, final String currencyCode, final String[] languages) {
+      final Integer distanceToBA, final List<String> timezones, final String currencyCode,
+      final List<String> languages) {
     super();
     this.name = name;
     this.capital = capital;
     this.region = region;
     this.subregion = subregion;
-    this.latLng = latLng;
+    this.distanceToBA = distanceToBA;
     this.timezones = timezones;
     this.currencyCode = currencyCode;
     this.languages = languages;
@@ -57,19 +58,19 @@ public class CountryInfo {
     this.subregion = subregion;
   }
 
-  public Integer[] getLatLng() {
-    return latLng;
+  public Integer getDistanceToBA() {
+    return distanceToBA;
   }
 
-  public void setLatLng(final Integer[] latLng) {
-    this.latLng = latLng;
+  public void setDistanceToBA(final Integer distanceToBA) {
+    this.distanceToBA = distanceToBA;
   }
 
-  public String[] getTimezones() {
+  public List<String> getTimezones() {
     return timezones;
   }
 
-  public void setTimezones(final String[] timezones) {
+  public void setTimezones(final List<String> timezones) {
     this.timezones = timezones;
   }
 
@@ -81,19 +82,19 @@ public class CountryInfo {
     this.currencyCode = currencyCode;
   }
 
-  public String[] getLanguages() {
+  public List<String> getLanguages() {
     return languages;
   }
 
-  public void setLanguages(final String[] languages) {
+  public void setLanguages(final List<String> languages) {
     this.languages = languages;
   }
 
   @Override
   public String toString() {
     return "CountryInfo [name=" + name + ", capital=" + capital + ", region=" + region + ", subregion=" + subregion
-        + ", latLng=" + Arrays.toString(latLng) + ", timezones=" + Arrays.toString(timezones) + ", currencyCode="
-        + currencyCode + ", languages=" + Arrays.toString(languages) + "]";
+        + ", distanceToBA=" + distanceToBA + ", timezones=" + timezones + ", currencyCode=" + currencyCode
+        + ", languages=" + languages + "]";
   }
 
 }

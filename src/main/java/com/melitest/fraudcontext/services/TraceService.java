@@ -1,5 +1,8 @@
 package com.melitest.fraudcontext.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +19,24 @@ public class TraceService {
   private CurrencyInfoService currencyInfoService;
   @Autowired
   private GeolocationService geolocationService;
+  @Autowired
+  private StatsService statsService;
 
   public ContextDto getContextFor(final String ip) {
+
     Location location = this.geolocationService.getLocationFromIp(ip);
-    System.out.println("LOCATION: " + location);
     CountryInfo countryInfo = this.countryInfoService.getCountryInfoFromCode(location.getCode());
-    System.out.println("COUNTRY INFO: " + countryInfo);
     CurrencyInfo currencyInfo = this.currencyInfoService.getEuroValueFor(countryInfo.getCurrencyCode());
-    System.out.println("CURRENCY INFO: " + currencyInfo);
-    String[] languagues = { "Español (es)" };
-    String[] times = { "20:01:23 (UTC)", "19:01:23 (UTC-01)" };
-    return new ContextDto(ip, "21/11/2020 15:12:03", "España (spain)", "es", languagues, "EUR (1 EUR = 1.0631 U$S)",
-        times, "10270 kms");
+    LocalDateTime dateTime = LocalDateTime.now();
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    String date = dateTime.format(dateTimeFormatter);
+    String country = countryInfo.getName() + " (" + countryInfo.getCapital() + ")";
+    String currency = currencyInfo.getCode() + " (1 EUR = " + currencyInfo.getEurRate() + " " + currencyInfo.getCode()
+        + ")";
+    Integer distanceToBA = countryInfo.getDistanceToBA();
+    this.statsService.updateStats(distanceToBA);
+    return new ContextDto(ip, date, country, location.getCode(), countryInfo.getLanguages(), currency,
+        countryInfo.getTimezones(), distanceToBA.toString() + " kms");
   }
 
 }

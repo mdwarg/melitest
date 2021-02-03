@@ -29,7 +29,7 @@ public class CurrencyInfoService {
   // API endpoint: http://data.fixer.io/api/
   // http://data.fixer.io/api/latest?access_key=8df12c260cb0f21c45dfb70eed70cb68
 
-  private static final String API_URL = "http://data.fixer.io/api/latest?access_key=8df12c260cb0f21c45dfb70eed70cb68&base=EUR&symbols=";
+  private static final String API_URL = "http://data.fixer.io/api/latest?access_key=8df12c260cb0f21c45dfb70eed70cb68&amount=1&from=EUR&to=";
 
   public CurrencyInfo getEuroValueFor(final String currency) {
     try {
@@ -43,7 +43,8 @@ public class CurrencyInfoService {
     try {
       HttpResponse<JsonNode> jsonResponse = Unirest.get(CurrencyInfoService.API_URL + currency)
           .header("accept", "application/json").asJson();
-      return new CurrencyInfo(currency, "EUR RATE 1.111");
+      String rate = "" + jsonResponse.getBody().getObject().getJSONObject("rates").getDouble(currency);
+      return new CurrencyInfo(currency, rate);
     } catch (UnirestException e) {
       throw new InternalServiceException("An error ocurred in Currency info service", e);
     }

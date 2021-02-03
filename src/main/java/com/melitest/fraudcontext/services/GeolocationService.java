@@ -44,4 +44,5 @@ public class GeolocationService {
       throw new InternalServiceException("An error ocurred in Geolocation service", e);
     }
   }
+
 }

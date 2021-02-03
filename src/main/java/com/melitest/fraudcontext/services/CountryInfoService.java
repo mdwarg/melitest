@@ -1,8 +1,11 @@
 package com.melitest.fraudcontext.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 
 import com.google.common.cache.CacheBuilder;
@@ -14,6 +17,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.melitest.fraudcontext.exceptions.InternalServiceException;
 import com.melitest.fraudcontext.models.CountryInfo;
+import com.melitest.fraudcontext.utils.DistanceUtils;
 
 @Service
 public class CountryInfoService {
@@ -34,7 +38,7 @@ public class CountryInfoService {
     }
   }
 
-  private static CountryInfo getCountryInfoFromAPI(final String code) {
+  private static <T> CountryInfo getCountryInfoFromAPI(final String code) {
     try {
       HttpResponse<JsonNode> jsonResponse = Unirest.get(CountryInfoService.API_URL + code)
           .header("accept", "application/json").asJson();
@@ -42,12 +46,35 @@ public class CountryInfoService {
       String capital = jsonResponse.getBody().getObject().get("capital").toString();
       String region = jsonResponse.getBody().getObject().get("region").toString();
       String subregion = jsonResponse.getBody().getObject().get("subregion").toString();
-      Integer[] latlng = { 1, -1 };// jsonResponse.getBody().getObject().get("latlng");
-      String[] timezones = { "UTC-05:00" };
-      jsonResponse.getBody().getObject().get("timezones");
-      String currency = "COP"; // jsonResponse.getBody().getObject().get("currencies")[0].toString();
-      String[] laguages = { "Español (es)" }; // jsonResponse.getBody().getObject().get("languages"));
-      return new CountryInfo(name, capital, region, subregion, latlng, timezones, currency, laguages);
+      Integer distanceToBA = 0;
+      List<String> timezones = new ArrayList<String>();
+      String currency = "";
+      List<String> laguages = new ArrayList<String>();
+
+      try {
+        double lat = jsonResponse.getBody().getObject().getJSONArray("latlng").getDouble(0);
+        double lng = jsonResponse.getBody().getObject().getJSONArray("latlng").getDouble(1);
+        distanceToBA = DistanceUtils.calculateDistanceByHaversineFormula(DistanceUtils.LONG_BA, DistanceUtils.LAT_BA,
+            lng, lat);
+
+        JSONArray timezonesResponse = jsonResponse.getBody().getObject().getJSONArray("timezones");
+        for (int i = 0; i < timezonesResponse.length(); i++) {
+          timezones.add(timezonesResponse.getString(i));
+        }
+
+        currency = jsonResponse.getBody().getObject().getJSONArray("currencies").getJSONObject(0).getString("code");
+
+        JSONArray lenguagesResponse = jsonResponse.getBody().getObject().getJSONArray("languages");
+        for (int i = 0; i < lenguagesResponse.length(); i++) {
+          laguages.add(lenguagesResponse.getJSONObject(i).getString("name") + " ("
+              + lenguagesResponse.getJSONObject(i).getString("iso639_1") + ")");
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new InternalServiceException("Error ocurred parsing response", e);
+      }
+
+      return new CountryInfo(name, capital, region, subregion, distanceToBA, timezones, currency, laguages);
     } catch (UnirestException e) {
       throw new InternalServiceException("An error ocurred in Country info service", e);
     }
