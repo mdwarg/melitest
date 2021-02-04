@@ -26,22 +26,23 @@ _Para instalar la aplicación necesitas tener instalado:_
 * [Gradle](https://gradle.org/install/)
 * [Docker](https://docs.docker.com/install/)
 
+## Correr la aplicación 🚀
+
+_Correr la aplicación utilizando Gradle_
+Se puede correr la apliación corriendo el siguiente comando en el directorio del proyecto:
+```
+gradle bootrun
+```
+
 ## Ejecutando las pruebas ⚙️
 
-_Se pueden ejecutar las pruebas usando maven con el siguiente comando_
+_Se pueden ejecutar las pruebas usando gradle con el siguiente comando_
 
 Dentro del directorio donde se encuentra el código del proyecto ejecutamos:
 ```
 gradle test
 ```
 
-## Comenzando 🚀
-
-_Correr la aplicación_
-Se puede correr la apliación corriendo el siguiente comando en el directorio del proyecto:
-```
-gradle bootrun
-```
 ## Deployment 📦
 
 _Para desplegar el proyecto debemos hacer el empaquetado de la apicacion utilizando gradle_
