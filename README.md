@@ -23,12 +23,14 @@ Mira **Deployment** para conocer como desplegar el proyecto.
 
 _Para instalar la aplicación necesitas tener instalado:_
 
+* [Java 8 JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
 * [Gradle](https://gradle.org/install/)
 * [Docker](https://docs.docker.com/install/)
 
 ## Correr la aplicación 🚀
 
 _Correr la aplicación utilizando Gradle_
+
 Se puede correr la apliación corriendo el siguiente comando en el directorio del proyecto:
 ```
 gradle bootrun
@@ -46,6 +48,7 @@ gradle test
 ## Deployment 📦
 
 _Para desplegar el proyecto debemos hacer el empaquetado de la apicacion utilizando gradle_
+
 Se debe establecer la variable de entorno con el puerto que utilizara la aplicacion con el siguiente comando:
 ```
 export PORT=8080
@@ -67,12 +70,14 @@ docker build --build-arg JAR_FILE=build/libs/\*.jar -t fraud-context-app .
 ```
 
 _Para correr la imagen de docker generada_
+
 Dentro del directorio del proyecto ejecutamos el siguiente comando:
 ```
 docker run -p 8080:8080 -t fraud-context-app
 ```
 
 _Probar la aplicación desde heroku_
+
 La aplicación esta desplegada en heroku en la siguiente URL:
 ```
 https://aqueous-coast-47895.herokuapp.com
