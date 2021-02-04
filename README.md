@@ -30,9 +30,17 @@ _Para instalar la aplicación necesitas tener instalado:_
 
 _Se pueden ejecutar las pruebas usando maven con el siguiente comando_
 
-Dentro del directorio "./fraud-context", que es donde se encuentra el código del proyecto ejecutamos:
+Dentro del directorio donde se encuentra el código del proyecto ejecutamos:
 ```
 gradle test
+```
+
+## Comenzando 🚀
+
+_Correr la aplicación_
+Se puede correr la apliación corriendo el siguiente comando en el directorio del proyecto:
+```
+gradle bootrun
 ```
 ## Deployment 📦
 
