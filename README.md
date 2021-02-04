@@ -36,7 +36,7 @@ gradle bootrun
 
 ## Ejecutando las pruebas ⚙️
 
-_Se pueden ejecutar las pruebas usando gradle con el siguiente comando_
+_Ejecutar las pruebas usando gradle_
 
 Dentro del directorio donde se encuentra el código del proyecto ejecutamos:
 ```
