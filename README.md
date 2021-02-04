@@ -37,11 +37,45 @@ gradle test
 ## Deployment 📦
 
 _Para desplegar el proyecto debemos hacer el empaquetado de la apicacion utilizando gradle_
-
-Dentro del directorio "./fraud-context", que es donde se encuentra el código del proyecto ejecutamos el siguiente comando:
+Se debe establecer la variable de entorno con el puerto que utilizara la aplicacion con el siguiente comando:
+```
+export PORT=8080
+```
+Dentro del directorio del proyecto ejecutamos el siguiente comando:
 ```
 gradle build
 ```
+Si deseamos borrar rastros de despliegues anteriores realizamos el build con el siguiente comando:
+```
+gradle clean & gradle build
+```
+
+_Para contruir la imagen de docker_
+
+Dentro del directiorio del proyecto ejecutamos el siguiente comando:
+```
+docker build --build-arg JAR_FILE=build/libs/\*.jar -t fraud-context-app .
+```
+
+_Para correr la imagen de docker generada_
+Dentro del directorio del proyecto ejecutamos el siguiente comando:
+```
+docker run -p 8080:8080 -t fraud-context-app
+```
+
+_Probar la aplicación desde heroku_
+La aplicación esta desplegada en heroku en la siguiente URL:
+```
+https://aqueous-coast-47895.herokuapp.com
+```
+Para tracear una ip utilizando curl se puede hacer con el siguiente comando:
+```
+curl -X POST -H "Content-Type: application/json" -d '{"ip":"83.44.196.93"}' https://aqueous-coast-47895.herokuapp.com/trace/
+```
+Para tracear una ip utilizando curl se puede hacer con el siguiente comando:
+```
+curl https://aqueous-coast-47895.herokuapp.com/stats/
+``` 
 
 ## Archivos log ⚙️
 
@@ -71,17 +105,17 @@ _Se pueden encontrar los archivos de configuración en las siguientes rutas_
 
 Aplicación:
 ```
-./fraud-context/src/main/resources/config.properties
+./src/main/resources/config.properties
 ```
 
 Spring:
 ```
-./fraud-context/src/main/resources/application.yml
+./src/main/resources/application.yml
 ```
 
 Gradle:
 ```
-./fraud-context/build.gradle
+./build.gradle
 ```
 
 ## Pruebas externas con Postman ⚙️
