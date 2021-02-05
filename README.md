@@ -91,45 +91,18 @@ Para tracear una ip utilizando curl se puede hacer con el siguiente comando:
 curl https://aqueous-coast-47895.herokuapp.com/stats/
 ``` 
 
-## Archivos log ⚙️
-
-_Se pueden consultar los archivos log generados por la aplicación_
-
-Los archivos log se generan en la siguiete ruta (configurable desde application.yml):
-```
-/var/tmp/
-```
-Como la aplicación se ejecuta dentro de un contenedor docker precisamos enviar al mismo los comandos que queremos ejecutar. Lo hacemos de la siguiente forma:
-```
-docker exec -i {nombre del contenedor} {comando}
-```
-Para obtener el nombre del contenedor ejecutamos el siguiente comando:
-```
-docker ps
-```
-
-Ejemplo para ver el log con el comando tail:
-```
-docker exec -i  tail -f /var/tmp/
-```
-
 ## Archivos de configuración ⚙️
 
 _Se pueden encontrar los archivos de configuración en las siguientes rutas_
 
-Aplicación:
-```
-./src/main/resources/config.properties
-```
-
-Spring:
-```
-./src/main/resources/application.yml
-```
-
 Gradle:
 ```
-./build.gradle
+./fraud-context/build.gradle
+```
+
+Docker:
+```
+./fraud-context/Dockerfile
 ```
 
 ## Pruebas externas con Postman ⚙️
@@ -138,8 +111,9 @@ _Para realizar pruebas con [Postman](https://www.getpostman.com/) se incluye una
 
 Este archivo se encuentra en la siguiente ubicación:
 ```
-./postman/.postman_collection.json
+./postman/MELI.postman_collection.json
 ```
+Nota: La colección esta configurada para ultilizar la variable de entorno "url", es necesario setear esta varianble para realizar las pruebas. Por ejemplo, para correr las pruebas utilizando el ambiente de heroku se debe setear la variable url con el valor "https://aqueous-coast-47895.herokuapp.com".
 
 ## Construido con 🛠️
 
